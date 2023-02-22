@@ -1,4 +1,4 @@
-
+//Imports
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Iterator;
@@ -19,20 +19,22 @@ import java.util.ArrayList;
 
 public class Eval {
 
-    private static String ims_str;
-    private static Map<String, Integer> ims_map;
-    private static Set<String> keys_ims;
+    
+    private static String ims_str;                  //Initial global capacity (string)
+    private static Map<String, Integer> ims_map;    //Initial global capacity (map)
+    private static Set<String> keys_ims;            //Keys of the Initial global capacity map
 
-    //"ims"="3c+b+a" ==> GLOBAL INITIAL CAPACITY    
+    static final String SEP = "'";                  //Separation element for multisets             
+  
+    //Initialization function with initial global capacity
     public Eval(String ims_){
         ims_str = ims_;
         ims_map = string2map(ims_);
         keys_ims = ims_map.keySet();
     }
     
-
+    //Function to verify that to formulas do not contradict each other (regarding negations)
     //f1,f2 are of the form "a" or "!a"
-    //Is one the negated or the other?
     private static boolean negated(String f1, String f2) {
         return
             (f1.charAt(0) == '!' && f2.charAt(0) != '!' && f1.substring(1).equals(f2))
@@ -40,10 +42,8 @@ public class Eval {
             (f2.charAt(0) == '!' && f1.charAt(0) != '!' && f2.substring(1).equals(f1));
     }
 
-    static final String SEP = "'";
-
-    //token is of the form "2/c,a,10/!y_3", and we assume non-negative coefficients
-    //returns a dictionary representing a multi-set
+    //Returns a map of the considered String multiset
+    //Multiset are of forms "1'a,2'b" for example (depending on SEP and the form of separation, here a comma)
     public static Map<String,Integer> string2map(String token) {
         String[] valC = token.split(",");
         Map<String,Integer> res = new HashMap<String,Integer>();
@@ -63,6 +63,7 @@ public class Eval {
 
     //"mapTuple" is not empty. It represents a multi-set
     //The value of each key is assumed to be > 0
+    //Returns a string of the considered Map multiset
     public static String map2string(Map<String,Integer> mapTuple) {
         Set<String> keys = mapTuple.keySet();
         Iterator<String> it = keys.iterator();
@@ -80,19 +81,13 @@ public class Eval {
         return res;
     }
 
-    //"e1","e2" are of the form "a,b,!c,d,...", representing the AND of the elements, or "1"
-    //they are assumed to be non-selfcontradicting,
-    //which means that neither "e1" nor "e2" contain "a" and "!a" simultaneously
-    //
-    //Is there any contradiction between elements of "e1" and "e2"?
-
-
+    //This function takes an unknown number of entries : for the unknown number of robots that can be taken into account within a 
+    //System Net transition. 
     public static boolean synchro(String buchi, String tuple, String capacity, String...args)
     //args of even index : robot formula, args of uneven index : condition of the cap 
     //Function which be executed first if there is 1 robot or more (unknown number)
-    //First, initialization of the maps and of the different objects
-    //Then, change of the observation tuple considering the transitions
     {
+        //Initialization
         Set<String> b = new HashSet<String>(Arrays.asList(buchi.split(",")));
         Set<String> s = new HashSet<String>();
         int x1=0;
@@ -115,6 +110,7 @@ public class Eval {
             k+=1;
         }
 
+        //Map initializations
         Map<String,Integer> map_t;
         map_t = string2map(str_t);
         Set<String> keys_t = map_t.keySet();
@@ -124,14 +120,14 @@ public class Eval {
         Set<String> keys_c = map_c.keySet();
         Iterator<String> it_c = keys_c.iterator();
 
-        //I think this is not useful : cannot happen with a good working example
+        //As a security, we verify that the logical state multiset does not have negative elements
         while(it_t.hasNext()){
             String next = it_t.next();
             if (map_t.get(next)<0 ){
                 return false;
             }
         }
-        //Same for second condition
+        //We verify that the capacity multiset does not have negative elements (condition on full capacity)
         while(it_c.hasNext()){
             String next = it_c.next();  
             if (map_c.get(next)<0 || map_c.get(next)>ims_map.get(next)){
@@ -139,9 +135,7 @@ public class Eval {
             }
         }
 
-        //ims_map.get(next)
-
-        // Verify if the buchi is not in contradiction with the entry tuple (eg: no robots in a if !a) ==> METHOD 1
+        // Verifies if the buchi is not in contradiction with the entry logical state (eg: no robots in a if !a)
         while(it_t.hasNext()){
             String next = it_t.next();
             String el = "!" + next;
@@ -149,31 +143,31 @@ public class Eval {
                 return false;
             }
         }
-
-
+        //Counts the number of not negated elements in the buchi formula
         for(String s1 : b) {
             if(s1.charAt(0) != '!'){
                 x1=x1+1;
             }
         }
 
+        //Checks the verification of the buchi formula by robots movements
         if (buchi.equals("1")) {
             return true;
         }
         else {
             for(String buc : b) {
                 for(String rob : s) {
-                    if(negated(buc,rob)) {
+                    if(negated(buc,rob)) {      //Verifies incompatibility
                         return false;
                     }
-                    else if(buc.charAt(0) != '!' && buc.equals(rob)){
+                    else if(buc.charAt(0) != '!' && buc.equals(rob)){      
                         x2=x2+1;
                     }
                 }
             }
         }
 
-        if(x1==x2){
+        if(x1==x2){          
             return true;
         }
         else {
@@ -181,6 +175,7 @@ public class Eval {
         }
     }
 
+    //However, the Renew Software does not support it, so we are obliged to adapt the entry depending on the number of robots
     public static boolean synchro(String buchi, String tuple, String capacity, String robot1, String cond1)
     {
         String[] args = new String[]{robot1, cond1};
@@ -198,29 +193,10 @@ public class Eval {
         String[] args = new String[]{robot1, cond1,robot2, cond2,robot3, cond3};
         return synchro(buchi, tuple, capacity, args);
     }
-
-    public static boolean synchro(String buchi, String tuple, String capacity, String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4)
-    {
-        String[] args = new String[]{robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4};
-        return synchro(buchi, tuple, capacity, args);
-    }
-
-    public static boolean synchro(String buchi, String tuple, String capacity, String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4, String robot5, String cond5)
-    {
-        String[] args = new String[]{robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4,robot5, cond5};
-        return synchro(buchi, tuple, capacity, args);
-    }
-
-    public static boolean synchro(String buchi, String tuple, String capacity, String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4, String robot5, String cond5, String robot6, String cond6)
-    {
-        String[] args = new String[]{robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4,robot5, cond5, robot6, cond6};
-        return synchro(buchi, tuple, capacity, args);
-    }
     
-    //for any key, the associated value should have to be >=0
-    //if value<0, |value|<= the value associated to "obs"
-    //multi_set="2/a,-1/c"
-
+    
+    
+    //Function updating the logical state multiset 
     public static String inc_t(String tuple, String cond){
         Map<String,Integer> map_t = string2map(tuple);
         Map<String,Integer> map_cond = string2map(cond);
@@ -240,6 +216,8 @@ public class Eval {
         return map2string(map_t);
     }
 
+    //This function takes an unknown number of entries : for the unknown number of robots that can be taken into account within a 
+    //System Net transition. 
     public static String inc_t(String tuple, String... args){
         String t_new = tuple;
         for(String arg : args){
@@ -248,7 +226,7 @@ public class Eval {
         return t_new;
     }
 
-
+    //However, the Renew Software does not support it, so we are obliged to adapt the entry depending on the number of robots
     public static String inc_t(String tuple, String cond1,String cond2)
     {
         String[] args = new String[]{ cond1, cond2};
