@@ -9,4 +9,4 @@ MODEL LAUNCHING PROCEDURE :
 
 Some remarks : 
 -At all times, you can observe the state of the robots nets by right-clicking the number contained by the Master Net place and double-clicking on one robot. 
--You can simulate by chosing the fired place. After having fired "init", you can double click on a transition si and chose what transition to fire. 
+-You can simulate by choosing the fired place. After having fired "init", you can double click on a transition si and choose what transition to fire. 

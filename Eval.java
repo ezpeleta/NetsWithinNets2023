@@ -349,6 +349,8 @@ public class Eval {
         return map2string(map_c);
     }
 
+    //This function takes an unknown number of entries : for the unknown number of robots that can be taken into account within a 
+    //System Net transition. 
     public static String inc_c(String capacity, String... args){
         int k=0;
         String robot = args[0];
@@ -366,9 +368,10 @@ public class Eval {
         return new_c;
     }
 
+    //However, the Renew Software does not support it, so we are obliged to adapt the entry depending on the number of robots
     public static String inc_c(String capacity, String robot1, String cond1, String robot2, String cond2)
     {
-        String[] args = new String[]{robot1, cond1,robot2, cond2};
+        String[] args = new String[]{robot1, cond1, robot2, cond2};
         return inc_c(capacity, args);
     }
 
@@ -397,7 +400,7 @@ public class Eval {
     }
 
 
-    //just for testing
+    //User Interface for testing 
      public static void main(String[] arg) {
          Scanner terminalInput = new Scanner(System.in);
          String bu,rob1,cond1,tup,rob2,cond2,rob3,cond3, capacity;
