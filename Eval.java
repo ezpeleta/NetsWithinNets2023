@@ -196,7 +196,7 @@ public class Eval {
 
 
     //Function updating the logical state multiset
-    public static Void inc_t(String cond) {
+    public static void inc_t(String cond) {
         Map<String,Integer> map_t = string2map(log_str);
         Map<String,Integer> map_cond = string2map(cond);
         Set<String> keys_cond = map_cond.keySet();
@@ -212,50 +212,29 @@ public class Eval {
         }
 
         log_str = map2string(map_t);
-        return null;
     }
 
     //This function takes an unknown number of entries : for the unknown number of robots that can be taken into account within a
     //System Net transition.
-    public static Void inc_t(String... args) {
+    public static void inc_t(String... args) {
         for(String arg : args) {
             inc_t(arg);
         }
-        return null;
     }
 
     //However, the Renew Software does not support it, so we are obliged to adapt the entry depending on the number of robots
-    public static Void inc_t(String cond1,String cond2) {
+    public static void inc_t(String cond1,String cond2) {
         String[] args = new String[] { cond1, cond2};
         inc_t(args);
-        return null;
     }
 
-    public static Void inc_t(String cond1,String cond2,  String cond3) {
+    public static void inc_t(String cond1,String cond2,  String cond3) {
         String[] args = new String[] {cond1, cond2, cond3};
         inc_t(args);
-        return null;
     }
 
-    public static Void inc_t(String cond1,String cond2,  String cond3, String cond4) {
-        String[] args = new String[] {cond1, cond2, cond3, cond4};
-        inc_t(args);
-        return null;
-    }
 
-    public static Void inc_t(String cond1,String cond2,  String cond3, String cond4,  String cond5) {
-        String[] args = new String[] {cond1, cond2, cond3, cond4, cond5};
-        inc_t(args);
-        return null;
-    }
-
-    public static Void inc_t(String cond1,String cond2,  String cond3, String cond4,  String cond5,  String cond6) {
-        String[] args = new String[] {cond1, cond2, cond3, cond4, cond5, cond6};
-        inc_t(args);
-        return null;
-    }
-
-    public static Void inc_c(String robot, String cond) {
+    public static void inc_c(String robot, String cond) {
         Map<String,Integer> map_c = string2map(cap_str);
         Map<String,Integer> map_mt = string2map(cond);
         Set<String> keys_ms = map_mt.keySet();
@@ -320,12 +299,11 @@ public class Eval {
             map_c.put(s_post_str,init_post-Math.abs(size));
         }
         cap_str = map2string(map_c);
-        return null;
     }
 
     //This function takes an unknown number of entries : for the unknown number of robots that can be taken into account within a
     //System Net transition.
-    public static Void inc_c(String... args) {
+    public static void inc_c(String... args) {
         int k=0;
         String robot = args[0];
 
@@ -337,38 +315,17 @@ public class Eval {
             }
             k+=1;
         }
-        return null;
     }
 
     //However, the Renew Software does not support it, so we are obliged to adapt the entry depending on the number of robots
-    public static Void inc_c(String robot1, String cond1, String robot2, String cond2) {
+    public static void inc_c(String robot1, String cond1, String robot2, String cond2) {
         String[] args = new String[] {robot1, cond1, robot2, cond2};
         inc_c(args);
-        return null;
     }
 
-    public static Void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3) {
+    public static void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3) {
         String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3};
         inc_c(args);
-        return null;
-    }
-
-    public static Void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4) {
-        String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4};
-        inc_c(args);
-        return null;
-    }
-
-    public static Void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4, String robot5, String cond5) {
-        String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4,robot5, cond5};
-        inc_c(args);
-        return null;
-    }
-
-    public static Void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4, String robot5, String cond5, String robot6, String cond6) {
-        String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4,robot5, cond5, robot6, cond6};
-        inc_c(args);
-        return null;
     }
 
 
