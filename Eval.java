@@ -233,6 +233,20 @@ public class Eval {
         inc_t(args);
     }
 
+    public static void inc_t(String cond1,String cond2,  String cond3, String cond4) {
+        String[] args = new String[] {cond1, cond2, cond3, cond4};
+        inc_t(args);
+    }
+
+    public static void inc_t(String cond1,String cond2,  String cond3, String cond4,  String cond5) {
+        String[] args = new String[] {cond1, cond2, cond3, cond4, cond5};
+        inc_t(args);
+    }
+
+    public static void inc_t(String cond1,String cond2,  String cond3, String cond4,  String cond5,  String cond6) {
+        String[] args = new String[] {cond1, cond2, cond3, cond4, cond5, cond6};
+        inc_t(args);
+    }
 
     public static void inc_c(String robot, String cond) {
         Map<String,Integer> map_c = string2map(cap_str);
@@ -325,6 +339,21 @@ public class Eval {
 
     public static void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3) {
         String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3};
+        inc_c(args);
+    }
+
+    public static void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4) {
+        String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4};
+        inc_c(args);
+    }
+
+    public static void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4, String robot5, String cond5) {
+        String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4,robot5, cond5};
+        inc_c(args);
+    }
+
+    public static void inc_c(String robot1, String cond1, String robot2, String cond2, String robot3, String cond3, String robot4, String cond4, String robot5, String cond5, String robot6, String cond6) {
+        String[] args = new String[] {robot1, cond1,robot2, cond2,robot3, cond3,robot4, cond4,robot5, cond5, robot6, cond6};
         inc_c(args);
     }
 
