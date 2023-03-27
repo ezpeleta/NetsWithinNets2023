@@ -24,7 +24,8 @@ Some remarks :
 Addional remarks:
 -The system will be executed as many times as the initial marking of place "numSim".
 -All the traces will be accumulated to the file named "log.txt".
--Besides storing in "log.txt" the solutions found, the "best" one will be in place named "bestSol". Being initially "", each time a new solution is obtained, it is compared with the current best, by means of the function "select_best" in the class "Eval". In its current version, "best" means "shorter" in terms of number of chars, but this is so just to check the feasability. The function could/should be much more sophisticated
+-Besides storing in "log.txt" the solutions found, the "best" one will be in place named "bestSol". Being initially "", each time a new solution is obtained, it is compared with the current best, by means of the function "select_best" in the class "Eval". In its current version, "best" means "shorter" in terms of steps executed to reach a final state. The function could/should be much more sophisticated
+-After each simulation of the current run, the best solution obtained upto now is also store just after the last solution stored.
 -This example contains two different types of robots: two as the initial example, and a second one which is not allowed to visit the intersection area
 -It has also been added a way of giving names to robots for an easier understanding of the solutions
 
